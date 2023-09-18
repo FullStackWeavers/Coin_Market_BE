@@ -1,15 +1,31 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:5173', // 클라이언트 주소
+    origin: process.env.CLIENT_ADDRESS, // 클라이언트 주소
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // 인증정보 (쿠키)를 전송할지 여부
   });
 
-  await app.listen(3000);
+  app.use(
+    session({
+      name: 'mySessionCookie',
+      secret: 'keyboard',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 600000,
+      },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  await app.listen(process.env.PORT);
 }
 bootstrap();
