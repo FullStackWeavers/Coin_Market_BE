@@ -1,6 +1,7 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as request from 'request';
 import * as CryptoJS from 'crypto-js';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 class XCoinAPI {
   private apiUrl: string = 'https://api.bithumb.com';

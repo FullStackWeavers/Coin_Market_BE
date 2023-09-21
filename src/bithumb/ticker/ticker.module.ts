@@ -4,6 +4,6 @@ import { TickerService } from './ticker.service';
 
 @Module({
   controllers: [TickerController],
-  providers: [TickerService]
+  providers: [TickerService],
 })
 export class TickerModule {}

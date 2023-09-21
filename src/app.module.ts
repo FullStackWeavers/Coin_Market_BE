@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
-import { EventsModule } from './events/events.module';
+import { EventsModule } from './socket/events.module';
 import { BithumbModule } from './bithumb/bithumb.module';
+import { User } from './user/entity/user.entity';
 
 @Module({
   imports: [
@@ -16,13 +17,11 @@ import { BithumbModule } from './bithumb/bithumb.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: process.env.HOST,
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DATABASE,
-      entities: [],
-      socketPath: '/tmp/mysql.sock',
+      entities: [User],
       synchronize: true,
       autoLoadEntities: true,
     }),
