@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
-import * as bcrypt from 'bcrypt';
+import { GoogleService } from 'src/google/google.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: GoogleService) {}
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.getUser(username);
     if (!user) {
@@ -14,7 +13,6 @@ export class AuthService {
     if (user) {
       return {
         userId: user.id,
-        userName: user.username,
       };
     }
     return null;

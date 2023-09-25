@@ -1,19 +1,32 @@
-// auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { PassportModule } from '@nestjs/passport';
-import { GoogleStrategy } from './google.strategy';
-import { UserModule } from 'src/user/user.module';
-// import { LocalStrategy } from './local.strategy';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { GoogleModule } from 'src/google/google.module';
 import { SessionSerializer } from './session.serializer';
+import { ConfigService } from '@nestjs/config';
+import { KakaoStrategy } from './strategies/kakao.strategy';
+import { KakaoModule } from 'src/kakao/kakao.module';
+import { GoogleService } from 'src/google/google.service';
+import { KakaoService } from 'src/kakao/kakao.service';
+import { GoogleRepository } from 'src/google/google.repository';
+import { KakaoRepository } from 'src/kakao/kakao.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    UserModule,
-    PassportModule.register({ defaultStrategy: 'google', session: true }),
+  imports: [GoogleModule, KakaoModule, GoogleRepository, KakaoRepository],
+  providers: [
+    AuthService,
+    SessionSerializer,
+    GoogleStrategy,
+    KakaoStrategy,
+    ConfigService,
+    GoogleService,
+    KakaoService,
+    GoogleRepository,
+    KakaoRepository,
+    JwtService,
   ],
-  providers: [AuthService, SessionSerializer, GoogleStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

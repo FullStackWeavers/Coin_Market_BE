@@ -3,11 +3,22 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { GoogleModule } from './google/google.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './socket/events.module';
 import { BithumbModule } from './bithumb/bithumb.module';
-import { User } from './user/entity/user.entity';
+import { GoogleUser } from './google/entity/google.entity';
+import { AuthController } from './auth/auth.controller';
+import { KakaoUser } from './kakao/entity/kakao.entity';
+import { KakaoService } from './kakao/kakao.service';
+import { KakaoModule } from './kakao/kakao.module';
+import { KakaoController } from './kakao/kakao.controller';
+import { KakaoRepository } from './kakao/kakao.repository';
+import { GoogleService } from './google/google.service';
+import { GoogleRepository } from './google/google.repository';
+import { GoogleController } from './google/google.controller';
+import { JwtService } from '@nestjs/jwt';
+import { KakaoStrategy } from './auth/strategies/kakao.strategy';
 
 @Module({
   imports: [
@@ -17,20 +28,34 @@ import { User } from './user/entity/user.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.HOST,
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DATABASE,
-      entities: [User],
+      entities: [GoogleUser, KakaoUser],
       synchronize: true,
-      autoLoadEntities: true,
     }),
     AuthModule,
-    UserModule,
+    GoogleModule,
     EventsModule,
     BithumbModule,
+    KakaoModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    AuthController,
+    AppController,
+    KakaoController,
+    GoogleController,
+  ],
+  providers: [
+    AppService,
+    KakaoService,
+    KakaoRepository,
+    GoogleService,
+    GoogleRepository,
+    JwtService,
+    KakaoStrategy,
+  ],
 })
 export class AppModule {}

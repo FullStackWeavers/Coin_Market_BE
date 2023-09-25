@@ -5,8 +5,8 @@ import * as CryptoJS from 'crypto-js';
 
 class XCoinAPI {
   private apiUrl: string = 'https://api.bithumb.com';
-  private api_key: string;
-  private api_secret: string;
+  private api_key: string = process.env.API_KEY;
+  private api_secret: string = process.env.API_SECRET;
 
   constructor(api_key: string, api_secret: string) {
     this.api_key = api_key;

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { GoogleService } from './google.service';
+import { GoogleController } from './google.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entity/user.entity';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { GoogleRepository } from './google.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([GoogleRepository]),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -16,9 +16,9 @@ import { ConfigService } from '@nestjs/config';
         signOptions: { expiresIn: '24h' },
       }),
     }),
+    GoogleRepository,
   ],
-  controllers: [UserController],
-  providers: [UserService],
-  exports: [UserService],
+  controllers: [GoogleController],
+  providers: [GoogleService, GoogleRepository],
 })
-export class UserModule {}
+export class GoogleModule {}
