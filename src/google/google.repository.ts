@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { GoogleUser } from './entity/google.entity';
+import { Google } from './entity/google.entity';
 
-@EntityRepository(GoogleUser)
-export class GoogleRepository extends Repository<GoogleUser> {}
+@EntityRepository(Google)
+export class GoogleRepository extends Repository<Google> {}

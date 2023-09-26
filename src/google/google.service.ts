@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { GoogleUser } from './entity/google.entity';
+import { Google } from './entity/google.entity';
 import { GoogleRepository } from './google.repository';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class GoogleService {
     email: string,
     username: string,
     photo: string,
-  ): Promise<GoogleUser> {
+  ): Promise<Google> {
     try {
       let user = await this.getUser(email);
       if (!user) {
@@ -28,7 +28,6 @@ export class GoogleService {
       }
       return user;
     } catch (err) {
-      // 적절한 에러 처리 추가
       throw new NotFoundException('User not found');
     }
   }
@@ -45,7 +44,7 @@ export class GoogleService {
     return access_token;
   }
 
-  async getUser(email: string): Promise<GoogleUser | null> {
+  async getUser(email: string): Promise<Google | null> {
     return this.googleRepository.findOne({
       where: { email },
     });

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { GoogleRepository } from './google.repository';
+import { KakaoRepository } from 'src/kakao/kakao.repository';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GoogleRepository } from './google.repository';
     GoogleRepository,
   ],
   controllers: [GoogleController],
-  providers: [GoogleService, GoogleRepository],
+  providers: [GoogleService, GoogleRepository, KakaoRepository],
+  exports: [GoogleRepository],
 })
 export class GoogleModule {}

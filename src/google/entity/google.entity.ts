@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class GoogleUser extends BaseEntity {
+export class Google extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: string;
 

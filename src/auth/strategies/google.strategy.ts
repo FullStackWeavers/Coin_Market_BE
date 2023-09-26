@@ -3,7 +3,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback, Profile } from 'passport-google-oauth20';
-import { GoogleUser } from 'src/google/entity/google.entity';
+import { Google } from 'src/google/entity/google.entity';
 import { GoogleService } from 'src/google/google.service';
 
 @Injectable()
@@ -12,12 +12,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google',
-      scope: ['email', 'profile'],
+      callbackURL: process.env.GOOGLE_REDIRECT_URL,
     });
   }
 
-  // refreshToken을 얻고 싶다면 해당 메서드 설정 필수
   authorizationParams(): { [key: string]: string } {
     return {
       access_type: 'offline',
@@ -36,7 +34,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const name = displayName;
     const photo = photos[0].value;
 
-    const user: GoogleUser = await this.googleService.findByEmailOrSave(
+    const user: Google = await this.googleService.findByEmailOrSave(
       email,
       name,
       photo,

@@ -1,8 +1,13 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard('google') {
+  constructor(private readonly authService: AuthService) {
+    super();
+  }
+
   async canActivate(context: any): Promise<boolean> {
     const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
@@ -13,7 +18,11 @@ export class GoogleAuthGuard extends AuthGuard('google') {
 
 @Injectable()
 export class KakaoAuthGuard extends AuthGuard('kakao') {
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  constructor(private readonly authService: AuthService) {
+    super();
+  }
+
+  async canActivate(context: any): Promise<boolean> {
     const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
     await super.logIn(request);

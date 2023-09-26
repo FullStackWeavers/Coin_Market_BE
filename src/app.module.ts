@@ -7,9 +7,9 @@ import { GoogleModule } from './google/google.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './socket/events.module';
 import { BithumbModule } from './bithumb/bithumb.module';
-import { GoogleUser } from './google/entity/google.entity';
+import { Google } from './google/entity/google.entity';
 import { AuthController } from './auth/auth.controller';
-import { KakaoUser } from './kakao/entity/kakao.entity';
+import { Kakao } from './kakao/entity/kakao.entity';
 import { KakaoService } from './kakao/kakao.service';
 import { KakaoModule } from './kakao/kakao.module';
 import { KakaoController } from './kakao/kakao.controller';
@@ -19,9 +19,12 @@ import { GoogleRepository } from './google/google.repository';
 import { GoogleController } from './google/google.controller';
 import { JwtService } from '@nestjs/jwt';
 import { KakaoStrategy } from './auth/strategies/kakao.strategy';
+import { AuthService } from './auth/auth.service';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'local' }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -33,7 +36,7 @@ import { KakaoStrategy } from './auth/strategies/kakao.strategy';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DATABASE,
-      entities: [GoogleUser, KakaoUser],
+      entities: [Google, Kakao],
       synchronize: true,
     }),
     AuthModule,
@@ -56,6 +59,7 @@ import { KakaoStrategy } from './auth/strategies/kakao.strategy';
     GoogleRepository,
     JwtService,
     KakaoStrategy,
+    AuthService,
   ],
 })
 export class AppModule {}

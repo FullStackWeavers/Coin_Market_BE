@@ -12,9 +12,16 @@ import { KakaoService } from 'src/kakao/kakao.service';
 import { GoogleRepository } from 'src/google/google.repository';
 import { KakaoRepository } from 'src/kakao/kakao.repository';
 import { JwtService } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [GoogleModule, KakaoModule, GoogleRepository, KakaoRepository],
+  imports: [
+    GoogleModule,
+    KakaoModule,
+    GoogleRepository,
+    KakaoRepository,
+    TypeOrmModule.forFeature([KakaoRepository, GoogleRepository]),
+  ],
   providers: [
     AuthService,
     SessionSerializer,
