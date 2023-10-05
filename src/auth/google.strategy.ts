@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// google.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback, Profile } from 'passport-google-oauth20';
-import { Google } from 'src/google/entity/google.entity';
-import { GoogleService } from 'src/google/google.service';
+import { User } from 'src/user/entity/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(private googleService: GoogleService) {
+  constructor(private userService: UserService) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_REDIRECT_URL,
+      scope: ['email', 'profile'],
     });
   }
 
@@ -29,16 +29,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: Profile,
     done: VerifyCallback,
   ): Promise<any> {
-    const { displayName, emails, photos } = profile;
+    const { emails, photos } = profile;
     const email = emails[0].value;
-    const name = displayName;
     const photo = photos[0].value;
 
-    const user: Google = await this.googleService.findByEmailOrSave(
-      email,
-      name,
-      photo,
-    );
-    return user;
+    const user: User = await this.userService.findByEmailOrSave(email, photo);
+
+    done(null, user);
   }
 }
