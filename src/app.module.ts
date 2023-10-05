@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './socket/events.module';
-import { BithumbModule } from './bithumb/bithumb.module';
+import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
 
 @Module({
