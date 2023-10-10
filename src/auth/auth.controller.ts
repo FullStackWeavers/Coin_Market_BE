@@ -14,6 +14,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { GoogleAuthGuard } from './auth.guard';
 import { UserService } from 'src/user/user.service';
+import { Response as ExpressResponse } from 'express';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly userService: UserService) {}
@@ -24,9 +26,9 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  googleLoginCallback(@Req() req, @Res() res) {
-    const { user } = req;
-    return res.send(user);
+  async googleLoginCallback(@Res() res: ExpressResponse, @Req() req) {
+    res.cookie('user', JSON.stringify(req.user), { httpOnly: true });
+    res.redirect('http://localhost:5173');
   }
 
   @Post('google/cors')
@@ -40,9 +42,7 @@ export class AuthController {
     @Request() req,
   ) {
     const isLogin = await this.userService.googleLoginAPI(body.res.credential);
-
     response.cookie('Authentication', `Bearer ${isLogin}`);
-
     return { message: '토큰을 성공적으로 받았습니다.', data: req.cookies };
   }
 
@@ -54,8 +54,9 @@ export class AuthController {
 
   @Get('naver/callback')
   @UseGuards(AuthGuard('naver'))
-  async naverLoginCallback(@Res() res: Response, @Request() req: Request) {
-    return;
+  async naverLoginCallback(@Res() res: ExpressResponse, @Req() req) {
+    res.cookie('user', JSON.stringify(req.user), { httpOnly: true });
+    res.redirect('http://localhost:5173');
   }
 
   @Get('kakao')
@@ -64,8 +65,9 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  async kakaoCallback(@Req() req, @Res() res) {
-    const token = req.user;
+  async kakaoCallback(@Res() res: ExpressResponse, @Req() req) {
+    res.cookie('user', JSON.stringify(req.user), { httpOnly: true });
+    res.redirect('http://localhost:5173');
   }
 
   @Post('logout')
