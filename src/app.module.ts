@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
-import { EventsModule } from './socket/events.module';
 import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
+import { EventsModule } from './events/socket.module';
 
 @Module({
   imports: [
@@ -28,8 +28,8 @@ import { User } from './user/entity/user.entity';
     }),
     AuthModule,
     UserModule,
-    EventsModule,
     BithumbModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

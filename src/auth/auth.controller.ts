@@ -26,7 +26,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  async googleLoginCallback(@Res() res: ExpressResponse, @Req() req) {
+  async googleLoginCallback(@Res() res, @Req() req) {
     res.cookie('user', JSON.stringify(req.user), { httpOnly: true });
     res.redirect('http://localhost:5173');
   }
@@ -48,7 +48,7 @@ export class AuthController {
 
   @Get('naver')
   @UseGuards(AuthGuard('naver'))
-  async naverLogin(@Req() req, @Res() res: Response) {
+  async naverLogin(@Req() req, @Res() res) {
     return res;
   }
 
@@ -65,7 +65,7 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  async kakaoCallback(@Res() res: ExpressResponse, @Req() req) {
+  async kakaoCallback(@Res() res, @Req() req) {
     res.cookie('user', JSON.stringify(req.user), { httpOnly: true });
     res.redirect('http://localhost:5173');
   }

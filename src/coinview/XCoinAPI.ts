@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as request from 'request';
 import * as CryptoJS from 'crypto-js';
+import request from 'request';
 
 class XCoinAPI {
   private apiUrl: string = 'https://api.bithumb.com';

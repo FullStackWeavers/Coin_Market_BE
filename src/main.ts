@@ -1,33 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as session from 'express-session';
-import * as passport from 'passport';
-import * as cookieParser from 'cookie-parser';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  app.useWebSocketAdapter(new WsAdapter(app));
 
-  app.enableCors({
-    origin: process.env.CLIENT_ADDRESS,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
-
-  app.use(
-    session({
-      name: 'mySessionCookie',
-      secret: 'keyboard',
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 600000,
-      },
-    }),
-    cookieParser(),
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  await app.listen(process.env.PORT);
+  await app.listen(3000);
 }
 bootstrap();
