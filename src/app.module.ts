@@ -7,7 +7,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
-import { EventsModule } from './events/socket.module';
+import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
   imports: [
@@ -29,9 +29,9 @@ import { EventsModule } from './events/socket.module';
     AuthModule,
     UserModule,
     BithumbModule,
-    EventsModule,
+    ChatGateway,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}
