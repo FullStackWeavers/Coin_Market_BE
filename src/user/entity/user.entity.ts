@@ -12,5 +12,8 @@ export class User extends BaseEntity {
   photo: string;
 
   @Column()
-  refreshToken: string;
+  connectKey?: string;
+
+  @Column()
+  secretKey?: string;
 }
