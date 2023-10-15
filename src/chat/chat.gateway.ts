@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -14,6 +13,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private numUsers = 0;
+  private messages: { username: string; message: string }[] = [];
 
   handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
@@ -33,11 +33,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     data: { username: string; message: string },
   ) {
     console.log(`${client['username']} : ${data.message}`);
-    const response = {
-      username: client['username'],
-      message: data.message,
-    };
-    this.server.emit('new message', response);
+    if (
+      !this.messages.some(
+        (msg) => msg.username === data.username && msg.message === data.message,
+      )
+    ) {
+      const response = {
+        username: client['username'],
+        message: data.message,
+      };
+      this.server.emit('new message', response);
+      this.messages.push(response);
+    }
   }
 
   @SubscribeMessage('add user')
