@@ -2,24 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private readonly jwtService: JwtService,
   ) {}
 
-  async findByEmailOrSave(email, photo, refreshToken): Promise<User> {
+  async findByEmailOrSave(email, photo): Promise<User> {
     try {
       const isUser = await this.getUser(email);
       if (!isUser) {
         const newUser = await this.userRepository.save({
           email,
           photo,
-          refreshToken,
         });
         return newUser;
       }

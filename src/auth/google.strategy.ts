@@ -23,22 +23,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     };
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: VerifyCallback,
-  ): Promise<any> {
+  async validate(profile: Profile, done: VerifyCallback): Promise<any> {
     const { emails, photos } = profile;
     const email = emails[0].value;
     const photo = photos[0].value;
 
-    const user: User = await this.userService.findByEmailOrSave(
-      email,
-      photo,
-      refreshToken,
-    );
+    const user: User = await this.userService.findByEmailOrSave(email, photo);
 
-    done(null, { user, accessToken });
+    done(null, user);
   }
 }

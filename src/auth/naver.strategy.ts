@@ -14,21 +14,12 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Values,
-    done: VerifyCallback,
-  ): Promise<any> {
+  async validate(profile: Values, done: VerifyCallback): Promise<any> {
     const { _json, emails } = profile;
     const email = emails ? emails[0].value : null;
     const photo = _json.profile_image ? _json.profile_image : null;
-    const user: User = await this.userService.findByEmailOrSave(
-      email,
-      photo,
-      refreshToken,
-    );
+    const user: User = await this.userService.findByEmailOrSave(email, photo);
 
-    done(null, { user, accessToken });
+    done(null, user);
   }
 }
