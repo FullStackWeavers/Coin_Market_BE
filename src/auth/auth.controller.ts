@@ -14,9 +14,12 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleLoginCallback(@Res() res, @Req() req) {
-    const accessToken = this.generateAccessToken(req.user.user);
-    res.cookie('accessToken', accessToken, { httpOnly: true });
+  async googleLoginCallback(@Req() req, @Res() res) {
+    const accessToken = this.generateAccessToken(req.user);
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      path: '/',
+    });
     res.redirect('http://localhost:5173');
   }
 
@@ -24,7 +27,10 @@ export class AuthController {
   @UseGuards(AuthGuard('naver'))
   async naverLoginCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user.user);
-    res.cookie('accessToken', accessToken, { httpOnly: true });
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      path: '/',
+    });
     res.redirect('http://localhost:5173');
   }
 
@@ -32,13 +38,16 @@ export class AuthController {
   @UseGuards(AuthGuard('kakao'))
   async kakaoCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user.user);
-    res.cookie('accessToken', accessToken, { httpOnly: true });
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      path: '/',
+    });
     res.redirect('http://localhost:5173');
   }
 
-  @Post('logout')
-  async logout(@Req() req, @Res() res) {
-    req.logout();
-    res.redirect('http://localhost:3000');
+  @Get('logout')
+  async logout(@Res() res) {
+    res.clearCookie('accessToken', { path: '/' });
+    res.redirect('http://localhost:5173');
   }
 }

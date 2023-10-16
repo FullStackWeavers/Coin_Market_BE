@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Res } from '@nestjs/common';
 import { XCoinAPI } from './XCoinAPI';
 import { CoinViewService } from './coinview.service';
 import { verify } from 'jsonwebtoken';
@@ -46,6 +46,42 @@ export class CoinViewController {
           process.env.ACCESS_TOKEN_PRIVATE_KEY,
         );
         console.log('디코딩된 토큰 데이터:', decodedToken);
+      }
+    }
+  }
+
+  @Post('cookie')
+  async getCookie(@Headers('cookie') cookie, @Res() res): Promise<any> {
+    const cookies = cookie ? cookie.split(';') : [];
+    let isCookie = false;
+
+    for (const cookie of cookies) {
+      const [name] = cookie.trim().split('=');
+      if (name === 'accessToken') {
+        isCookie = true;
+        break;
+      }
+    }
+
+    res.json({ isCookie });
+  }
+
+  @Post('userprofile')
+  async userProfileGet(@Headers('cookie') cookie, @Res() res): Promise<any> {
+    const cookies = cookie.split(';');
+
+    let accessToken = null;
+
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+
+      if (name === 'accessToken') {
+        accessToken = value;
+        const decodedToken = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_PRIVATE_KEY,
+        );
+        res.json({ decodedToken });
       }
     }
   }
