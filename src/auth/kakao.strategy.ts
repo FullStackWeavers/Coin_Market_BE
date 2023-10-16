@@ -13,13 +13,18 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     });
   }
 
-  async validate(profile: any, done: VerifyCallback) {
+  async validate(
+    accessToken: string,
+    refreshToken: string,
+    profile: any,
+    done: VerifyCallback,
+  ) {
     const { _json } = profile;
     const email = _json.kakao_account.email;
     const photo = _json.properties.profile_image;
 
     const user = await this.userService.findByEmailOrSave(email, photo);
 
-    done(null, user);
+    done(null, { user });
   }
 }
