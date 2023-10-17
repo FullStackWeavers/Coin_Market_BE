@@ -12,52 +12,40 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  private numUsers = 0;
-  private messages: { username: string; message: string }[] = [];
+  private connectedClients: Set<Socket> = new Set();
+  private pendingRequests: Map<string, boolean> = new Map();
 
   handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
+    this.connectedClients.add(client);
   }
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
-    if (client['username']) {
-      --this.numUsers;
-      console.log(`Disconnected: ${client.id}, Total Users: ${this.numUsers}`);
-    }
+    this.connectedClients.delete(client);
+    this.pendingRequests.delete(client.id);
   }
 
   @SubscribeMessage('new message')
-  handleNewMessage(
+  async handleNewMessage(
     client: Socket,
     data: { username: string; message: string },
   ) {
-    console.log(`${client['username']} : ${data.message}`);
-    if (
-      !this.messages.some(
-        (msg) => msg.username === data.username && msg.message === data.message,
-      )
-    ) {
+    if (this.pendingRequests.get(client.id)) {
+      return;
+    }
+
+    this.pendingRequests.set(client.id, true);
+
+    try {
+      console.log(`${client['username']} : ${data.message}`);
       const response = {
         username: client['username'],
         message: data.message,
       };
       this.server.emit('new message', response);
-      this.messages.push(response);
+    } finally {
+      this.pendingRequests.delete(client.id);
     }
-  }
-
-  @SubscribeMessage('add user')
-  handleAddUser(client: Socket, username: string) {
-    if (client['username']) return;
-
-    client['username'] = username;
-    ++this.numUsers;
-    console.log(`Connected: ${client.id}, Total Users: ${this.numUsers}`);
-    client.emit('login', { numUsers: this.numUsers });
-    client.broadcast.emit('user joined', {
-      username: username,
-      numUsers: this.numUsers,
-    });
   }
 }

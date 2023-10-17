@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Get, Headers, Post, Res } from '@nestjs/common';
 import { XCoinAPI } from './XCoinAPI';
 import { CoinViewService } from './coinview.service';
@@ -30,7 +31,6 @@ export class CoinViewController {
   }
 
   @Post('userkey')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async userkeyPush(@Headers('cookie') cookie, @Body() data): Promise<any> {
     const cookies = cookie.split(';');
 

@@ -27,7 +27,6 @@ import { ChatGateway } from './chat/chat.gateway';
     AuthModule,
     UserModule,
     BithumbModule,
-    ChatGateway,
   ],
   providers: [ChatGateway],
 })
