@@ -11,9 +11,9 @@ export class User extends BaseEntity {
   @Column()
   photo: string;
 
-  @Column()
+  @Column({ nullable: true })
   connectKey?: string;
 
-  @Column()
+  @Column({ nullable: true })
   secretKey?: string;
 }
