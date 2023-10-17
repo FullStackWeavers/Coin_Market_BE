@@ -5,7 +5,7 @@ import { Coin } from './entity/coin.entity';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
-export class CoinService {
+export class FavoritesService {
   constructor(
     private readonly userService: UserService,
 
@@ -48,7 +48,7 @@ export class CoinService {
     }
   }
 
-  async check(coin: string | any[], user: { user: { email: string; }; email: string; }, data: { name: string; }){
+  async updateCoin(coin: string | any[], user: { user: { email: string; }; email: string; }, data: { name: string; }){
     if (coin.length == 0) {
         await this.createCoin(user.user.email, data.name);
         const coins = await this.viewCoin(user.user.email)

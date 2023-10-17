@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
 import { ChatGateway } from './chat/chat.gateway';
-import { CoinModule } from './coin/coin.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { CoinModule } from './coin/coin.module';
     AuthModule,
     UserModule,
     BithumbModule,
-    CoinModule,
+    FavoritesModule,
   ],
   providers: [ChatGateway],
 })
