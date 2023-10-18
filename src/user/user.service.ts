@@ -35,21 +35,21 @@ export class UserService {
     return user;
   }
 
-  async decodeToken(cookie:any){
+  async decodeToken(cookie: any) {
     const cookies = cookie.split(';');
     let accessToken = null;
 
     for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
+      const [name, value] = cookie.trim().split('=');
 
-        if (name === 'accessToken') {
-            accessToken = value;
-            const decodedToken = verify(
-                accessToken,
-                process.env.ACCESS_TOKEN_PRIVATE_KEY,
-            ); 
-          return decodedToken
-        }
+      if (name === 'accessToken') {
+        accessToken = value;
+        const decodedToken = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_PRIVATE_KEY,
+        );
+        return decodedToken;
+      }
     }
   }
 }

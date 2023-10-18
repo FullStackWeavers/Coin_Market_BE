@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -12,40 +13,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  private connectedClients: Set<Socket> = new Set();
-  private pendingRequests: Map<string, boolean> = new Map();
+  handleConnection(client: Socket) {}
 
-  handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
-    this.connectedClients.add(client);
-  }
-
-  handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
-    this.connectedClients.delete(client);
-    this.pendingRequests.delete(client.id);
-  }
+  handleDisconnect(client: Socket) {}
 
   @SubscribeMessage('new message')
   async handleNewMessage(
     client: Socket,
-    data: { username: string; message: string },
+    data: { photo: string; email: string; message: string },
   ) {
-    if (this.pendingRequests.get(client.id)) {
-      return;
-    }
-
-    this.pendingRequests.set(client.id, true);
-
-    try {
-      console.log(`${client['username']} : ${data.message}`);
-      const response = {
-        username: client['username'],
-        message: data.message,
-      };
-      this.server.emit('new message', response);
-    } finally {
-      this.pendingRequests.delete(client.id);
-    }
+    const response = {
+      photo: data.photo,
+      email: data.email,
+      message: data.message,
+    };
+    this.server.emit('new message', response);
   }
 }

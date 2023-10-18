@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, NotAcceptableException, Req } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
