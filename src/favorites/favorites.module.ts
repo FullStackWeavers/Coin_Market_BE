@@ -11,4 +11,4 @@ import { UserModule } from 'src/user/user.module';
   controllers: [FavoritesController],
   providers: [FavoritesService],
 })
-export class FavoritesModule { }
+export class FavoritesModule {}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, Get, UseGuards, Req, Res, Post } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { sign } from 'jsonwebtoken';
 
@@ -20,7 +20,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('http://localhost:5174');
   }
 
   @Get('naver/callback')
@@ -31,7 +31,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('http://localhost:5174');
   }
 
   @Get('kakao/callback')
@@ -42,12 +42,12 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('http://localhost:5174');
   }
 
   @Get('logout')
   async logout(@Res() res) {
     res.clearCookie('accessToken', { path: '/' });
-    res.redirect('http://localhost:5173');
+    res.redirect('http://localhost:5174');
   }
 }

@@ -10,8 +10,6 @@ export class CoinViewController {
 
   @Get('account')
   public async coinviewAccount(@Headers('cookie') cookie): Promise<any> {
-    console.log(cookie);
-
     const key = process.env.API_KEY;
     const secret = process.env.API_SECRET;
     const rgParams = {
@@ -45,7 +43,6 @@ export class CoinViewController {
           accessToken,
           process.env.ACCESS_TOKEN_PRIVATE_KEY,
         );
-        console.log('디코딩된 토큰 데이터:', decodedToken);
       }
     }
   }
