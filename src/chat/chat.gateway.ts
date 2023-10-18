@@ -19,7 +19,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(client: Socket) {}
 
   handleDisconnect(client: Socket) {
-    this.leaveAllRooms(client); // 연결 끊긴 클라이언트가 모든 방에서 나가도록 함
+    this.leaveAllRooms(client);
   }
 
   private joinRoom(client: Socket, coin: string) {
