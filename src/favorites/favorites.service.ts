@@ -56,7 +56,7 @@ export class FavoritesService {
 
   async updateCoin(
     coin: string | any[],
-    user: { user: { email: string }; email: string },
+    user: { user: { email: string } },
     data: { name: string },
   ) {
     if (coin.length == 0) {
@@ -65,7 +65,7 @@ export class FavoritesService {
       return coins;
     } else {
       await this.deleteCoin(user.user.email, data.name);
-      const coins = await this.viewCoin(user.email);
+      const coins = await this.viewCoin(user.user.email);
       return coins;
     }
   }

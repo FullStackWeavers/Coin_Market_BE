@@ -7,6 +7,7 @@ import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
 import { ChatGateway } from './chat/chat.gateway';
 import { FavoritesModule } from './favorites/favorites.module';
+import { PortfolioModule } from './portfolio/portfolio.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { FavoritesModule } from './favorites/favorites.module';
     UserModule,
     BithumbModule,
     FavoritesModule,
+    PortfolioModule,
   ],
   providers: [ChatGateway],
 })
