@@ -1,11 +1,74 @@
-import { Body, Controller, Header, Post } from '@nestjs/common';
-import { CreateUserDto } from './dto/user.dto';
-
+import { Controller, Get, Headers, Post, Res } from '@nestjs/common';
+import { JwtPayload, verify } from 'jsonwebtoken';
+import { UserService } from './user.service';
+interface UserPayload extends JwtPayload {
+  user: {
+    id: number;
+    email: string;
+  };
+}
 @Controller('user')
 export class UserController {
-  @Post()
-  @Header('Access-Control-Allow-Origin', process.env.CLIENT_ADDRESS)
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return { message: 'User created Sucessfully', data: createUserDto };
+  constructor(private readonly userService: UserService) {}
+  @Post('cookie')
+  async getCookie(@Headers('cookie') cookie, @Res() res): Promise<any> {
+    const cookies = cookie ? cookie.split(';') : [];
+    let isCookie = false;
+
+    for (const cookie of cookies) {
+      const [name] = cookie.trim().split('=');
+      if (name === 'accessToken') {
+        isCookie = true;
+        break;
+      }
+    }
+
+    res.json({ isCookie });
+  }
+
+  @Post('userprofile')
+  async userProfileGet(@Headers('cookie') cookie, @Res() res): Promise<any> {
+    const cookies = cookie.split(';');
+
+    let accessToken = null;
+
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+
+      if (name === 'accessToken') {
+        accessToken = value;
+        const decodedToken = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_PRIVATE_KEY,
+        );
+        res.json({ decodedToken });
+      }
+    }
+  }
+
+  @Get('apikey')
+  async getUserApiKey(@Headers('cookie') cookie, @Res() res): Promise<any> {
+    const cookies = cookie.split(';');
+
+    let accessToken = null;
+
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+
+      if (name === 'accessToken') {
+        accessToken = value;
+        const decodedToken: UserPayload = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_PRIVATE_KEY,
+        ) as UserPayload;
+        if (decodedToken && decodedToken.user && decodedToken.user.email) {
+          const email = await decodedToken.user.email;
+          const user = await this.userService.getUser(email);
+          res.json(user);
+        } else {
+          console.log('올바르지 않은 토큰 구조입니다.');
+        }
+      }
+    }
   }
 }

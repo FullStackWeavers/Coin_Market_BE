@@ -9,7 +9,7 @@ import {
 import { User } from 'src/user/entity/user.entity';
 
 @Entity()
-export class Coin extends BaseEntity {
+export class Portfolio extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
