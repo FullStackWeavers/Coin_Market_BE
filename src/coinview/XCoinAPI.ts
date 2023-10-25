@@ -43,7 +43,8 @@ class XCoinAPI {
       request(options, (error, response, _body) => {
         if (!error && response.statusCode == 200) {
           resolve(response);
-        } else {
+        } 
+        else {
           reject(error);
         }
       });

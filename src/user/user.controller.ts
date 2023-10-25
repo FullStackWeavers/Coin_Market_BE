@@ -65,8 +65,6 @@ export class UserController {
           const email = await decodedToken.user.email;
           const user = await this.userService.getUser(email);
           res.json(user);
-        } else {
-          console.log('올바르지 않은 토큰 구조입니다.');
         }
       }
     }

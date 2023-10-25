@@ -22,7 +22,7 @@ export class PortfolioController {
     private readonly userService: UserService,
     @InjectRepository(Portfolio)
     private portfolioRepository: Repository<Portfolio>,
-  ) {}
+  ) { }
 
   @Post('apikey')
   async userkeyPush(@Headers('cookie') cookie, @Body() data): Promise<any> {
@@ -99,11 +99,6 @@ export class PortfolioController {
       const parsedData = JSON.parse(data.body);
       res.json(parsedData);
     } catch (error) {
-      console.error('Get coin data error:', error);
-      const errorMessage = error
-        ? error.message || 'Internal Server Error.'
-        : 'Internal Server Error.';
-      res.status(500).json({ error: errorMessage });
     }
   }
 
@@ -132,7 +127,6 @@ export class PortfolioController {
       const savedPortfolios = await Promise.all(promises);
       return savedPortfolios;
     } catch (error) {
-      console.error('Push portfolio coin error:', error);
       return { error: error.message || 'Internal Server Error.' };
     }
   }
@@ -154,12 +148,15 @@ export class PortfolioController {
         throw new Error('Portfolio coin not found.');
       }
       await this.portfolioRepository.delete(portfolioDbCoin.id);
+      const portfolioData = await this.portfolioRepository.find({
+        where: { userId: user.user.id },
+      });
       return {
+        data: portfolioData,
         success: true,
         message: 'Portfolio coin deleted successfully.',
       };
     } catch (error) {
-      console.error('Delete portfolio coin error:', error);
       return {
         success: false,
         message: error.message || 'Internal Server Error.',

@@ -12,20 +12,15 @@ export class UserService {
   ) {}
 
   async findByEmailOrSave(email, photo): Promise<User> {
-    try {
-      const isUser = await this.getUser(email);
-      if (!isUser) {
-        const newUser = await this.userRepository.save({
-          email,
-          photo,
-        });
-        return newUser;
-      }
-      return isUser;
-    } catch (err) {
-      console.log(err);
-      throw err;
+    const isUser = await this.getUser(email);
+    if (!isUser) {
+      const newUser = await this.userRepository.save({
+        email,
+        photo,
+      });
+      return newUser;
     }
+    return isUser;
   }
 
   async getUser(email: string): Promise<User> {

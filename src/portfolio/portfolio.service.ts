@@ -37,7 +37,6 @@ export class PortfolioService {
         return savedUser;
       }
     } catch (err) {
-      console.log(err);
       throw err;
     }
   }

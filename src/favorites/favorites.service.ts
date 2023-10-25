@@ -45,7 +45,6 @@ export class FavoritesService {
   }
 
   async deleteCoin(email: string, coinName: string) {
-    const user = await this.userService.getUser(email);
     const coin = await this.searchCoin(email, coinName);
     if (coin.length == 0) {
       return { message: '삭제할 코인이 존재하지 않습니다.' };
