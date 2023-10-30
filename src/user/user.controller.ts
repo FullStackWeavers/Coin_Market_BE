@@ -15,7 +15,7 @@ interface UserPayload extends JwtPayload {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('cookie')
+  @Get('cookie')
   async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
     const cookies = cookie ? cookie.split(';') : [];
     let isCookie = false;
