@@ -48,7 +48,7 @@ export class PortfolioController {
 
   @Get('mylist')
   async getMyPortfolioList(
-    @Headers('cookie') cookie,
+    @Headers('cookie') cookie:string,
     @Res() res,
   ): Promise<any> {
     try {
@@ -73,7 +73,7 @@ export class PortfolioController {
 
   @Get('list/:coinName')
   async getCoinData(
-    @Headers('cookie') cookie,
+    @Headers('cookie') cookie:string,
     @Param('coinName') coinName: string,
     @Res() res,
   ): Promise<any> {

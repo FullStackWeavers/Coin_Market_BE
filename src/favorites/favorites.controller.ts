@@ -10,7 +10,7 @@ export class FavoritesController {
   ) {}
 
   @Get('checkcookie')
-  async cookieCheck(@Headers('cookie') cookie) {
+  async cookieCheck(@Headers('cookie') cookie:string) {
     if (cookie == undefined) {
       return false;
     } else {
@@ -25,7 +25,7 @@ export class FavoritesController {
   }
 
   @Post('checkcoin')
-  async createFavorites(@Headers('cookie') cookie, @Body() data) {
+  async createFavorites(@Headers('cookie') cookie:string, @Body() data) {
     const user: any = await this.userService.decodeToken(cookie);
     const coin = await this.favoritesService.searchCoin(
       user.user.email,
@@ -36,7 +36,7 @@ export class FavoritesController {
   }
 
   @Get('viewcoin')
-  async viewCoin(@Headers('cookie') cookie) {
+  async viewCoin(@Headers('cookie') cookie:string) {
     const user: any = await this.userService.decodeToken(cookie);
     const coins = await this.favoritesService.viewCoin(user.user.email);
     return coins;
