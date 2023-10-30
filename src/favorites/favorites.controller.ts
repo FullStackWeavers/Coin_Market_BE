@@ -11,17 +11,15 @@ export class FavoritesController {
 
   @Get('checkcookie')
   async cookieCheck(@Headers('cookie') cookie: string) {
-    return console.log(cookie)
     if (cookie == undefined) {
-      console.log(cookie);
-      return console.log(cookie);
+      return false;
     } else {
       const user: any = await this.userService.decodeToken(cookie);
       const email = await this.userService.getUser(user.user.email);
       if (email) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     }
   }
