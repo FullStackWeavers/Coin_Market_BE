@@ -30,7 +30,7 @@ export class UserService {
     return user;
   }
 
-  async decodeToken(cookie: any) {
+  async decodeToken(cookie: string) {
     const cookies = cookie.split(';');
     let accessToken = null;
 
