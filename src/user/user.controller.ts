@@ -36,13 +36,16 @@ export class UserController {
     @Headers('cookie') cookie: string,
     @Res() res,
   ): Promise<any> {
+    console.log("39", cookie);
     const cookies = cookie.split(';');
 
     let accessToken = null;
 
     for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
 
+      
+      const [name, value] = cookie.trim().split('=');
+      console.log("45", name);
       if (name === 'accessToken') {
         accessToken = value;
         try {
@@ -50,6 +53,8 @@ export class UserController {
             accessToken,
             process.env.ACCESS_TOKEN_PRIVATE_KEY,
           );
+          console.log("56",decodedToken);
+          
           res.json({ decodedToken });
         } catch (error) {
           console.error('Token verification error:', error);
