@@ -11,6 +11,7 @@ export class FavoritesController {
 
   @Get('checkcookie')
   async cookieCheck(@Headers('cookie') cookie: string) {
+    return console.log(cookie)
     if (cookie == undefined) {
       console.log(cookie);
       return console.log(cookie);
