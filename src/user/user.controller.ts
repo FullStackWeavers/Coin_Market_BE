@@ -11,7 +11,7 @@ interface UserPayload extends JwtPayload {
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Post('cookie')
-  async getCookie(@Headers('cookie') cookie:string, @Res() res): Promise<any> {
+  async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
     const cookies = cookie ? cookie.split(';') : [];
     let isCookie = false;
 
@@ -27,7 +27,10 @@ export class UserController {
   }
 
   @Post('userprofile')
-  async userProfileGet(@Headers('cookie') cookie:string, @Res() res): Promise<any> {
+  async userProfileGet(
+    @Headers('cookie') cookie: string,
+    @Res() res,
+  ): Promise<any> {
     const cookies = cookie.split(';');
 
     let accessToken = null;
@@ -47,7 +50,10 @@ export class UserController {
   }
 
   @Get('apikey')
-  async getUserApiKey(@Headers('cookie') cookie:string, @Res() res): Promise<any> {
+  async getUserApiKey(
+    @Headers('cookie') cookie: string,
+    @Res() res,
+  ): Promise<any> {
     const cookies = cookie.split(';');
 
     let accessToken = null;

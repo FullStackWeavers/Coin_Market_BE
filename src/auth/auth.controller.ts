@@ -17,7 +17,8 @@ export class AuthController {
   async googleLoginCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user);
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
+      httpOnly: false,
+      secure: true,
       path: '/',
     });
     res.redirect('https://coinview.store');
@@ -28,7 +29,8 @@ export class AuthController {
   async naverLoginCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user.user);
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
+      httpOnly: false,
+      secure: true,
       path: '/',
     });
     res.redirect('https://coinview.store');
@@ -39,7 +41,8 @@ export class AuthController {
   async kakaoCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user.user);
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
+      httpOnly: false,
+      secure: true,
       path: '/',
     });
     res.redirect('https://coinview.store');
