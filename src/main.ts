@@ -9,5 +9,4 @@ async function bootstrap() {
     'https://port-0-coin-market-be-12fhqa2llob5p0if.sel5.cloudtype.app',
   );
 }
-
 bootstrap();
