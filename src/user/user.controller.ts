@@ -36,6 +36,10 @@ export class UserController {
     @Headers('cookie') cookie: string,
     @Res() res,
   ): Promise<any> {
+    if (!cookie) {
+      res.status(400).json({ error: 'Cookie header is missing or empty' });
+      return;
+    }
     const cookies = cookie.split(';');
 
     let accessToken = null;
