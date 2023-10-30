@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Post, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { UserService } from './user.service';
 import dotenv from 'dotenv';
@@ -16,7 +16,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('cookie')
-  async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
+  async getCookie(@Req() cookie: string, @Res() res): Promise<any> {
     const cookies = cookie ? cookie.split(';') : [];
     let isCookie = false;
 
@@ -32,20 +32,14 @@ export class UserController {
   }
 
   @Post('userprofile')
-  async userProfileGet(
-    @Headers('cookie') cookie: string,
-    @Res() res,
-  ): Promise<any> {
-    console.log("39", cookie);
+  async userProfileGet(@Req() cookie: string, @Res() res): Promise<any> {
     const cookies = cookie.split(';');
 
     let accessToken = null;
 
     for (const cookie of cookies) {
-
-      
       const [name, value] = cookie.trim().split('=');
-      console.log("45", name);
+
       if (name === 'accessToken') {
         accessToken = value;
         try {
@@ -53,8 +47,7 @@ export class UserController {
             accessToken,
             process.env.ACCESS_TOKEN_PRIVATE_KEY,
           );
-          console.log("56",decodedToken);
-          
+
           res.json({ decodedToken });
         } catch (error) {
           console.error('Token verification error:', error);
@@ -65,10 +58,7 @@ export class UserController {
   }
 
   @Get('apikey')
-  async getUserApiKey(
-    @Headers('cookie') cookie: string,
-    @Res() res,
-  ): Promise<any> {
+  async getUserApiKey(@Req() cookie: string, @Res() res): Promise<any> {
     const cookies = cookie.split(';');
 
     let accessToken = null;

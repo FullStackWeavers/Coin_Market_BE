@@ -33,8 +33,6 @@ export class UserService {
   }
 
   async decodeToken(cookie: string) {
-    console.log(cookie);
-    console.log(cookie.split(';'));
     const cookies = cookie.split(';');
     let accessToken = null;
 
