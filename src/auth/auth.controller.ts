@@ -2,6 +2,8 @@
 import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { sign } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 @Controller('auth')
 export class AuthController {

@@ -1,5 +1,7 @@
 import { Controller, Get, Headers } from '@nestjs/common';
 import { XCoinAPI } from './XCoinAPI';
+import dotenv from 'dotenv';
+dotenv.config();
 
 @Controller('info')
 export class CoinViewController {

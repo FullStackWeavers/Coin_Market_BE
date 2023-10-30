@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { verify } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class UserService {

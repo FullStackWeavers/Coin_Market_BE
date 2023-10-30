@@ -1,6 +1,9 @@
 import { Controller, Get, Headers, Post, Res } from '@nestjs/common';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { UserService } from './user.service';
+import dotenv from 'dotenv';
+dotenv.config();
+
 interface UserPayload extends JwtPayload {
   user: {
     id: number;

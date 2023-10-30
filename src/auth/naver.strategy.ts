@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback, Values } from 'passport-naver';
 import { User } from 'src/user/entity/user.entity';
 import { UserService } from 'src/user/user.service';
+import dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {

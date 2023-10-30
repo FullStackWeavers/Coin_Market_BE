@@ -2,19 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { ConfigModule } from '@nestjs/config';
 import { BithumbModule } from './coinview/coinview.module';
 import { User } from './user/entity/user.entity';
 import { ChatGateway } from './chat/chat.gateway';
 import { FavoritesModule } from './favorites/favorites.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,

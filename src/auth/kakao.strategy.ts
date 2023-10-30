@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-kakao';
 import { UserService } from 'src/user/user.service';
+import dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
