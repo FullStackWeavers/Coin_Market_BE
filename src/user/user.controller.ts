@@ -10,9 +10,11 @@ interface UserPayload extends JwtPayload {
     email: string;
   };
 }
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   @Post('cookie')
   async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
     const cookies = cookie ? cookie.split(';') : [];
@@ -43,11 +45,16 @@ export class UserController {
 
       if (name === 'accessToken') {
         accessToken = value;
-        const decodedToken = verify(
-          accessToken,
-          process.env.ACCESS_TOKEN_PRIVATE_KEY,
-        );
-        res.json({ decodedToken });
+        try {
+          const decodedToken = await verify(
+            accessToken,
+            process.env.ACCESS_TOKEN_PRIVATE_KEY,
+          );
+          res.json({ decodedToken });
+        } catch (error) {
+          console.error('Token verification error:', error);
+          res.status(500).json({ error: 'Token verification failed.' });
+        }
       }
     }
   }
@@ -66,14 +73,19 @@ export class UserController {
 
       if (name === 'accessToken') {
         accessToken = value;
-        const decodedToken: UserPayload = verify(
-          accessToken,
-          process.env.ACCESS_TOKEN_PRIVATE_KEY,
-        ) as UserPayload;
-        if (decodedToken && decodedToken.user && decodedToken.user.email) {
-          const email = await decodedToken.user.email;
-          const user = await this.userService.getUser(email);
-          res.json(user);
+        try {
+          const decodedToken: UserPayload = (await verify(
+            accessToken,
+            process.env.ACCESS_TOKEN_PRIVATE_KEY,
+          )) as UserPayload;
+          if (decodedToken && decodedToken.user && decodedToken.user.email) {
+            const email = decodedToken.user.email;
+            const user = await this.userService.getUser(email);
+            res.json(user);
+          }
+        } catch (error) {
+          console.error('Token verification error:', error);
+          res.status(500).json({ error: 'Token verification failed.' });
         }
       }
     }
