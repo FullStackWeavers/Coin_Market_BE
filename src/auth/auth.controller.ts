@@ -20,7 +20,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('https://coinview.store');
   }
 
   @Get('naver/callback')
@@ -31,7 +31,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('https://coinview.store');
   }
 
   @Get('kakao/callback')
@@ -42,12 +42,12 @@ export class AuthController {
       httpOnly: true,
       path: '/',
     });
-    res.redirect('http://localhost:5173');
+    res.redirect('https://coinview.store');
   }
 
   @Get('logout')
   async logout(@Res() res) {
     res.clearCookie('accessToken', { path: '/' });
-    res.redirect('http://localhost:5173');
+    res.redirect('https://coinview.store');
   }
 }

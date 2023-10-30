@@ -22,7 +22,7 @@ export class PortfolioController {
     private readonly userService: UserService,
     @InjectRepository(Portfolio)
     private portfolioRepository: Repository<Portfolio>,
-  ) { }
+  ) {}
 
   @Post('apikey')
   async userkeyPush(@Headers('cookie') cookie, @Body() data): Promise<any> {
@@ -98,8 +98,7 @@ export class PortfolioController {
       const data = await xcoinAPI.xcoinApiCall('/info/account', rgParams);
       const parsedData = JSON.parse(data.body);
       res.json(parsedData);
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   @Post('create')
