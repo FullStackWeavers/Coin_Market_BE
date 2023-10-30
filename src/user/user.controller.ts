@@ -46,7 +46,7 @@ export class UserController {
       if (name === 'accessToken') {
         accessToken = value;
         try {
-          const decodedToken = await verify(
+          const decodedToken = verify(
             accessToken,
             process.env.ACCESS_TOKEN_PRIVATE_KEY,
           );
@@ -74,10 +74,10 @@ export class UserController {
       if (name === 'accessToken') {
         accessToken = value;
         try {
-          const decodedToken: UserPayload = (await verify(
+          const decodedToken: UserPayload = verify(
             accessToken,
             process.env.ACCESS_TOKEN_PRIVATE_KEY,
-          )) as UserPayload;
+          ) as UserPayload;
           if (decodedToken && decodedToken.user && decodedToken.user.email) {
             const email = decodedToken.user.email;
             const user = await this.userService.getUser(email);
