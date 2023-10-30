@@ -13,7 +13,7 @@ export class FavoritesController {
   async cookieCheck(@Headers('cookie') cookie: string) {
     if (cookie == undefined) {
       console.log(cookie);
-      return false;
+      return console.log(cookie);
     } else {
       const user: any = await this.userService.decodeToken(cookie);
       const email = await this.userService.getUser(user.user.email);
