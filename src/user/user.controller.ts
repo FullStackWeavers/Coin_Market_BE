@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { UserService } from './user.service';
 import dotenv from 'dotenv';
@@ -16,8 +16,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('cookie')
-  async getCookie(cookie: string, @Res() res): Promise<any> {
-    const cookies = cookie ? cookie.split(';') : [];
+  async getCookie(@Req() req, @Res() res): Promise<any> {
+    const cookies = req.cookies ? req.cookies.split(';') : [];
     let isCookie = false;
 
     for (const cookie of cookies) {
@@ -32,8 +32,8 @@ export class UserController {
   }
 
   @Post('userprofile')
-  async userProfileGet(cookie: string, @Res() res): Promise<any> {
-    const cookies = cookie.split(';');
+  async userProfileGet(@Req() req, @Res() res): Promise<any> {
+    const cookies = req.cookies.split(';');
 
     let accessToken = null;
 
@@ -58,8 +58,8 @@ export class UserController {
   }
 
   @Get('apikey')
-  async getUserApiKey(cookie: string, @Res() res): Promise<any> {
-    const cookies = cookie.split(';');
+  async getUserApiKey(@Req() req, @Res() res): Promise<any> {
+    const cookies = req.cookies.split(';');
 
     let accessToken = null;
 

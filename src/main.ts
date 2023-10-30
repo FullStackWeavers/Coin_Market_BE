@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -7,6 +8,7 @@ async function bootstrap() {
     origin: 'https://web-coin-market-fe-euegqv2llockze72.sel5.cloudtype.app',
     credentials: true,
   });
+  app.use(cookieParser());
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
