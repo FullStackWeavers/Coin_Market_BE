@@ -31,7 +31,7 @@ export class UserController {
     res.json({ isCookie });
   }
 
-  @Get('userprofile')
+  @Post('userprofile')
   async userProfileGet(
     @Headers('cookie') cookie: string,
     @Res() res,
