@@ -17,9 +17,9 @@ export class FavoritesController {
       const user: any = await this.userService.decodeToken(cookie);
       const email = await this.userService.getUser(user.user.email);
       if (email) {
-        return true;
+        return console.log(email);;
       } else {
-        return false;
+        return console.log(email);
       }
     }
   }
