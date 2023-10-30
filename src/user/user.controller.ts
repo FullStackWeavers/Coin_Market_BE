@@ -17,6 +17,8 @@ export class UserController {
 
   @Post('cookie')
   async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
+    console.log(`쿠키1${cookie}`);
+
     const cookies = cookie ? cookie.split(';') : [];
     let isCookie = false;
 
@@ -36,6 +38,7 @@ export class UserController {
     @Headers('cookie') cookie: string,
     @Res() res,
   ): Promise<any> {
+    console.log(`쿠키2${cookie}`);
     if (!cookie) {
       res.status(400).json({ error: 'Cookie header is missing or empty' });
       return;
