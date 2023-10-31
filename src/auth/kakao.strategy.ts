@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifyCallback } from 'passport-kakao';
+import { Strategy } from 'passport-kakao';
 import { UserService } from 'src/user/user.service';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -15,18 +15,14 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: VerifyCallback,
-  ) {
+  async validate(accessToken: string, refreshToken: string, profile: any) {
     const { _json } = profile;
     const email = _json.kakao_account.email;
     const photo = _json.properties.profile_image;
 
     const user = await this.userService.findByEmailOrSave(email, photo);
 
-    done(null, { user });
+    // done(null, { user });
+    return user;
   }
 }
