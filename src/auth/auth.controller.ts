@@ -42,10 +42,6 @@ export class AuthController {
     );
   }
 
-  @Get('kakao')
-  @UseGuards(AuthGuard('kakao'))
-  kakaoLogin(@Res() res): void {}
-
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
   async kakaoCallback(@Req() req, @Res() res) {
