@@ -23,7 +23,7 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://www.coinview.store');
+    res.redirect('https://coin-market-fe.vercel.app');
   }
 
   @Get('naver/callback')
@@ -35,7 +35,7 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://www.coinview.store');
+    res.redirect('https://coin-market-fe.vercel.app');
   }
 
   @Get('kakao/callback')
@@ -47,12 +47,12 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://www.coinview.store');
+    res.redirect('https://coin-market-fe.vercel.app');
   }
 
   @Get('logout')
   async logout(@Res() res) {
     res.clearCookie('accessToken', { path: '/' });
-    res.redirect('https://www.coinview.store');
+    res.redirect('https://coin-market-fe.vercel.app');
   }
 }
