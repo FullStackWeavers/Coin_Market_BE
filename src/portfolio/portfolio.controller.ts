@@ -38,7 +38,6 @@ export class PortfolioController {
       );
       return { success: true, message: 'API key saved successfully.' };
     } catch (error) {
-      console.error('API key save error:', error);
       return {
         success: false,
         message: error.message || 'Internal Server Error.',
@@ -64,7 +63,6 @@ export class PortfolioController {
       const coins = portfolios.map((portfolio) => portfolio.coin);
       res.status(200).json(coins);
     } catch (error) {
-      console.error('Get portfolio list error:', error);
       res
         .status(500)
         .json({ error: error.message || 'Internal Server Error.' });

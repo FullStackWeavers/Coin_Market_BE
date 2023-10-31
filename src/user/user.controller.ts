@@ -23,7 +23,6 @@ export class UserController {
     console.log(`쿠키1${cookie}`);
 
     const cookies = cookie ? cookie.split(';') : [];
-    // 저장된 쿠키 데이터를 전역 변수인 cookieData에 할당
     cookieData = cookies;
     let isCookie = false;
 
@@ -40,8 +39,6 @@ export class UserController {
 
   @Post('userprofile')
   async userProfileGet(@Res() res): Promise<any> {
-    console.log(`쿠키2${cookieData}`);
-
     const cookies = cookieData;
 
     let accessToken = null;
@@ -90,7 +87,6 @@ export class UserController {
             res.json(user);
           }
         } catch (error) {
-          console.error('Token verification error:', error);
           res.status(500).json({ error: 'Token verification failed.' });
         }
       }

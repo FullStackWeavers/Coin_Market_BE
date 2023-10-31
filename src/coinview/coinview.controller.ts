@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, Get, Headers } from '@nestjs/common';
 import { XCoinAPI } from './XCoinAPI';
 import dotenv from 'dotenv';
@@ -7,7 +8,6 @@ dotenv.config();
 export class CoinViewController {
   @Get('account')
   public async coinviewAccount(@Headers('cookie') cookie): Promise<any> {
-    console.log(cookie);
     const key = process.env.API_KEY;
     const secret = process.env.API_SECRET;
     const rgParams = {
