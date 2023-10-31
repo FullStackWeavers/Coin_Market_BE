@@ -47,6 +47,8 @@ export class AuthController {
   async kakaoCallback(@Req() req, @Res() res) {
     const accessToken = this.generateAccessToken(req.user.user);
     res.cookie('accessToken', accessToken, {
+      httpOnly: false,
+      secure: true,
       path: '/',
     });
     res.redirect(
