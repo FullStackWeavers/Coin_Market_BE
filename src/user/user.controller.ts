@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, Get, Post, Res, Headers } from '@nestjs/common';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { UserService } from './user.service';
@@ -11,6 +12,8 @@ interface UserPayload extends JwtPayload {
   };
 }
 
+let cookieData = null;
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -20,6 +23,8 @@ export class UserController {
     console.log(`쿠키1${cookie}`);
 
     const cookies = cookie ? cookie.split(';') : [];
+    // 저장된 쿠키 데이터를 전역 변수인 cookieData에 할당
+    cookieData = cookies;
     let isCookie = false;
 
     for (const cookie of cookies) {
@@ -34,16 +39,10 @@ export class UserController {
   }
 
   @Post('userprofile')
-  async userProfileGet(
-    @Headers('cookie') cookie: string,
-    @Res() res,
-  ): Promise<any> {
-    console.log(`쿠키2${cookie}`);
-    if (!cookie) {
-      res.status(400).json({ error: 'Cookie header is missing or empty' });
-      return;
-    }
-    const cookies = cookie.split(';');
+  async userProfileGet(@Res() res): Promise<any> {
+    console.log(`쿠키2${cookieData}`);
+
+    const cookies = cookieData;
 
     let accessToken = null;
 
@@ -60,7 +59,6 @@ export class UserController {
 
           res.json({ decodedToken });
         } catch (error) {
-          console.error('Token verification error:', error);
           res.status(500).json({ error: 'Token verification failed.' });
         }
       }
