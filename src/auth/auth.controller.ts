@@ -23,7 +23,9 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://coin-market-fe.vercel.app');
+    res.redirect(
+      'https://web-coin-market-fe-euegqv2llodpzutn.sel5.cloudtype.app',
+    );
   }
 
   @Get('naver/callback')
@@ -35,7 +37,9 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://coin-market-fe.vercel.app');
+    res.redirect(
+      'https://web-coin-market-fe-euegqv2llodpzutn.sel5.cloudtype.app',
+    );
   }
 
   @Get('kakao/callback')
@@ -47,12 +51,16 @@ export class AuthController {
       secure: true,
       path: '/',
     });
-    res.redirect('https://coin-market-fe.vercel.app');
+    res.redirect(
+      'https://web-coin-market-fe-euegqv2llodpzutn.sel5.cloudtype.app',
+    );
   }
 
   @Get('logout')
   async logout(@Res() res) {
     res.clearCookie('accessToken', { path: '/' });
-    res.redirect('https://coin-market-fe.vercel.app');
+    res.redirect(
+      'https://web-coin-market-fe-euegqv2llodpzutn.sel5.cloudtype.app',
+    );
   }
 }
