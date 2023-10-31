@@ -20,8 +20,6 @@ export class UserController {
 
   @Post('cookie')
   async getCookie(@Headers('cookie') cookie: string, @Res() res): Promise<any> {
-    console.log(`쿠키1${cookie}`);
-
     const cookies = cookie ? cookie.split(';') : [];
     cookieData = cookies;
     let isCookie = false;
